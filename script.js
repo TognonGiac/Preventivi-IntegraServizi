@@ -32,18 +32,23 @@ async function generaPdfHuawei() {
     const totale = parseFloat(document.getElementById("h_totale_finale").value || 0);
 
     const kwh_formattato = kwh.toFixed(2).replace('.', ',');
-    const prezzo_formattato = prezzo.toLocaleString('it-IT', { minimumFractionDigits: 2 }) + " €";
-    const totale_formattato = totale.toLocaleString('it-IT', { minimumFractionDigits: 2 }) + " €";
+    const prezzo_formattato = prezzo.toLocaleString('it-IT', { minimumFractionDigits: 2 });
+    const totale_formattato = totale.toLocaleString('it-IT', { minimumFractionDigits: 2 });
 
     const dati_inseriti = {
         "data": document.getElementById("h_data").value,
         "referente": document.getElementById("h_referente").value,
+        "telefono": document.getElementById("h_telefono_ref").value,
         "cliente": cliente,
         "indirizzo": document.getElementById("h_indirizzo").value,
-        "kwh_totali": kwh_formattato,
+        "telefono_cliente": document.getElementById("h_telefono_cliente").value,
+        "email_cliente": document.getElementById("h_email_cliente").value,
+        "indirizzo_installazione": document.getElementById("h_indirizzo_inst").value,
         "n_sistemi": document.getElementById("h_sistemi").value,
+        "kwh_totali": kwh_formattato,
         "prezzo": prezzo_formattato,
-        "chiavi in mano": totale_formattato
+        "piu' iva": totale_numero,
+        "chiavi in mano": totale_con_simbolo
     };
 
     try {
