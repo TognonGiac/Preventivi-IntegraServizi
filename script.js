@@ -111,10 +111,6 @@ async function generaPdfHuawei() {
 }
 
 function toggleTema() {
-    const body = document.body;
-    if (body.classList.contains("light-mode")) {
-        body.classList.remove("light-mode");
-    } else {
-        body.classList.add("light-mode");
-    }
+    // Il comando toggle aggiunge la classe se non c'è, e la toglie se c'è.
+    document.body.classList.toggle("light-mode");
 }
