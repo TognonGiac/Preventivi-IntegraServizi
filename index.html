@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore Preventivi</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Generatore Preventivi</h1>
+        <h2>1. Seleziona il modello</h2>
+        
+        <select id="tipo_preventivo" onchange="mostraModulo()">
+            <option value="">Scegli...</option>
+            <option value="HUAWEI">BATTERIE ACCUMULO HUAWEI</option>
+            </select>
+
+        <div id="modulo_huawei" class="modulo-nascosto">
+            <hr>
+            <label>Data dell'offerta:</label>
+            <input type="text" id="h_data" placeholder="es. 04/03/2026">
+            
+            <label>Referente commerciale:</label>
+            <input type="text" id="h_referente" value="Tognon Maurizio">
+            
+            <label>Nome e Cognome del cliente:</label>
+            <input type="text" id="h_cliente">
+
+            <label>Indirizzo di residenza:</label>
+            <input type="text" id="h_indirizzo">
+
+            <hr>
+            <label>Capacità accumulo totale in kWh:</label>
+            <input type="number" id="h_kwh" step="0.5">
+
+            <label>Numero di sistemi di accumulo:</label>
+            <input type="number" id="h_sistemi" step="1">
+
+            <hr>
+            <label>Prezzo senza IVA €:</label>
+            <input type="number" id="h_prezzo_base" step="100">
+
+            <label>Totale Chiavi in Mano (IVA Inclusa) €:</label>
+            <input type="number" id="h_totale_finale" step="100">
+
+            <button onclick="generaPdfHuawei()">⬇️ SCARICA IL PREVENTIVO</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
