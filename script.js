@@ -28,8 +28,7 @@ async function generaPdfHuawei() {
     // A. Raccogliamo e formattiamo i dati dai campi HTML (esattamente come facevi in Python)
     const kwh = parseFloat(document.getElementById("h_kwh").value || 0);
     const prezzoSenzaIVA = parseFloat(document.getElementById("h_prezzo_base").value || 0);
-    const prezzoPiuIVA = parseFloat(document.getElementById("h_piu_iva").value || 0);
-    const prezzoChiaviInMano = parseFloat(document.getElementById("h_chiavi_in_mano").value || 0);
+    const prezzoTotale = parseFloat(document.getElementById("h_totale").value || 0);
 
     const trasformaInFormatoItaliano = (numero) => {
         return numero.toLocaleString('it-IT', { 
@@ -50,8 +49,8 @@ async function generaPdfHuawei() {
         "n_sistemi": document.getElementById("h_sistemi").value,
         "kwh_totali": trasformaInFormatoItaliano(Kwh),
         "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
-        "piu' iva": trasformaInFormatoItaliano(prezzoPiuIva),
-        "chiavi in mano": trasformaInFormatoItaliano(prezzoChiaviInMano)
+        "piu' iva": totaleFormattato(prezzoTotale),
+        "chiavi in mano": trasformaInFormatoItaliano(prezzoTotale)
     };
 
     try {
