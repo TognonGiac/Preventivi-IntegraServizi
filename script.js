@@ -26,29 +26,32 @@ const coordinate_HUAWEI = {
 // 2. FUNZIONE PER GENERARE IL PDF
 async function generaPdfHuawei() {
     // A. Raccogliamo e formattiamo i dati dai campi HTML (esattamente come facevi in Python)
-    const cliente = document.getElementById("h_cliente").value;
     const kwh = parseFloat(document.getElementById("h_kwh").value || 0);
-    const prezzo = parseFloat(document.getElementById("h_prezzo_base").value || 0);
-    const totale = parseFloat(document.getElementById("h_totale_finale").value || 0);
+    const prezzoSenzaIVA = parseFloat(document.getElementById("h_prezzo_base").value || 0);
+    const prezzoPiuIVA = parseFloat(document.getElementById("h_piu_iva").value || 0);
+    const prezzoChiaviInMano = parseFloat(document.getElementById("h_chiavi_in_mano").value || 0);
 
-    const kwh_formattato = kwh.toFixed(2).replace('.', ',');
-    const prezzo_formattato = prezzo.toLocaleString('it-IT', { minimumFractionDigits: 2 });
-    const totale_formattato = totale.toLocaleString('it-IT', { minimumFractionDigits: 2 });
+    const trasformaInFormatoItaliano = (numero) => {
+        return numero.toLocaleString('it-IT', { 
+            minimumFractionDigits: 2, 
+            maximumFractionDigits: 2 
+        });
+    };
 
     const dati_inseriti = {
         "data": document.getElementById("h_data").value,
         "referente": document.getElementById("h_referente").value,
         "telefono": document.getElementById("h_telefono_ref").value,
-        "cliente": cliente,
+        "cliente": document.getElementById("h_cliente").value,
         "indirizzo": document.getElementById("h_indirizzo").value,
         "telefono_cliente": document.getElementById("h_telefono_cliente").value,
         "email_cliente": document.getElementById("h_email_cliente").value,
         "indirizzo_installazione": document.getElementById("h_indirizzo_inst").value,
         "n_sistemi": document.getElementById("h_sistemi").value,
-        "kwh_totali": kwh_formattato,
-        "prezzo": prezzo_formattato,
-        "piu' iva": totale_numero,
-        "chiavi in mano": totale_con_simbolo
+        "kwh_totali": trasformaInFormatoItaliano(Kwh),
+        "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
+        "piu' iva": trasformaInFormatoItaliano(prezzoPiuIva),
+        "chiavi in mano": trasformaInFormatoItaliano(prezzoChiaviInMano)
     };
 
     try {
