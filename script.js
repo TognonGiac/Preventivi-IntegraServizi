@@ -23,81 +23,89 @@ const coordinate_HUAWEI = {
     "chiavi in mano": [1, 220, 705],
 };
 
-// 2. FUNZIONE PER GENERARE IL PDF
+//2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
+function mostraModulo() {
+    const selezione = document.getElementById("tipo_preventivo").value;
+    const modulo = document.getElementById("modulo_huawei");
+    if (selezione === "HUAWEI") {
+        modulo.style.display = "block";
+    } else {
+        modulo.style.display = "none";
+    }
+}
+// 3. FUNZIONE PER GENERARE IL PDF
 async function generaPdfHuawei() {
-    // A. Raccogliamo e formattiamo i dati dai campi HTML (esattamente come facevi in Python)
-    const kwh = parseFloat(document.getElementById("h_kwh").value || 0);
-    const prezzoSenzaIVA = parseFloat(document.getElementById("h_prezzo_base").value || 0);
-    const prezzoTotale = parseFloat(document.getElementById("h_totale").value || 0);
+    try{
+        // A. Raccogliamo e formattiamo i dati dai campi HTML (esattamente come facevi in Python)
+        const kwh = parseFloat(document.getElementById("h_kwh").value || 0);
+        const prezzoSenzaIVA = parseFloat(document.getElementById("h_prezzo_base").value || 0);
+        const prezzoTotale = parseFloat(document.getElementById("h_totale").value || 0);
+    
+        const trasformaInFormatoItaliano = (numero) => {
+            return numero.toLocaleString('it-IT', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+        };
+    
+        const dati_inseriti = {
+            "data": document.getElementById("h_data").value,
+            "referente": document.getElementById("h_referente").value,
+            "telefono": document.getElementById("h_telefono_ref").value,
+            "cliente": document.getElementById("h_cliente").value,
+            "indirizzo": document.getElementById("h_indirizzo").value,
+            "telefono_cliente": document.getElementById("h_telefono_cliente").value,
+            "email_cliente": document.getElementById("h_email_cliente").value,
+            "indirizzo_installazione": document.getElementById("h_indirizzo_inst").value,
+            "n_sistemi": document.getElementById("h_sistemi").value,
+            "kwh_totali": trasformaInFormatoItaliano(Kwh),
+            "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
+            "piu' iva": totaleFormattato(prezzoTotale),
+            "chiavi in mano": trasformaInFormatoItaliano(prezzoTotale)
+        };
 
-    const trasformaInFormatoItaliano = (numero) => {
-        return numero.toLocaleString('it-IT', { 
-            minimumFractionDigits: 2, 
-            maximumFractionDigits: 2 
-        });
-    };
-
-    const dati_inseriti = {
-        "data": document.getElementById("h_data").value,
-        "referente": document.getElementById("h_referente").value,
-        "telefono": document.getElementById("h_telefono_ref").value,
-        "cliente": document.getElementById("h_cliente").value,
-        "indirizzo": document.getElementById("h_indirizzo").value,
-        "telefono_cliente": document.getElementById("h_telefono_cliente").value,
-        "email_cliente": document.getElementById("h_email_cliente").value,
-        "indirizzo_installazione": document.getElementById("h_indirizzo_inst").value,
-        "n_sistemi": document.getElementById("h_sistemi").value,
-        "kwh_totali": trasformaInFormatoItaliano(Kwh),
-        "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
-        "piu' iva": totaleFormattato(prezzoTotale),
-        "chiavi in mano": trasformaInFormatoItaliano(prezzoTotale)
-    };
-
-    try {
-        // B. Scarichiamo il PDF vuoto dalla tua cartella assets su GitHub
-        // (Assicurati che il percorso sia giusto!)
+        // B. Caricamento del PDF originale dalla cartella assets
         const url_pdf = 'assets/BATTERIE ACCUMULO HUAWEI.pdf';
-        const existingPdfBytes = await fetch(url_pdf).then(res => res.arrayBuffer());
+        const bytesOriginali = await fetch(url_pdf).then(res => {
+            if (!res.ok) throw new Error("File PDF non trovato in assets!");
+            return res.arrayBuffer();
+        });
 
-        // Carichiamo il PDF nella libreria
-        const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+        // C. Magia con pdf-lib
+        const pdfDoc = await PDFLib.PDFDocument.load(bytesOriginali);
         const pages = pdfDoc.getPages();
-        
-        // Impostiamo il font (Helvetica)
-        const fontNormale = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
         const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const fontNormale = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
 
-        // C. Scriviamo i testi sul PDF usando le coordinate!
+        // D. Scrittura sulle coordinate
         for (const [chiave, valore] of Object.entries(dati_inseriti)) {
             if (coordinate_HUAWEI[chiave]) {
-                const [num_pagina, x, y] = coordinate_HUAWEI[chiave];
-                const pagina = pages[num_pagina]; // Prende la pagina giusta (0, 1, 2...)
+                const [numPagina, x, y] = coordinate_HUAWEI[chiave];
+                const pagina = pages[numPagina];
 
-                // Se è "chiavi in mano" usa il grassetto, altrimenti normale
-                const fontScelto = (chiave === "chiavi in mano") ? fontBold : fontNormale;
-                const grandezza = (chiave === "chiavi in mano") ? 16 : 12;
+                const fontDaUsare = (chiave === "chiavi in mano") ? fontBold : fontNormale;
+                const dimensione = (chiave === "chiavi in mano") ? 14 : 11;
 
                 pagina.drawText(String(valore), {
                     x: x,
                     y: y,
-                    size: grandezza,
-                    font: fontScelto,
-                    color: PDFLib.rgb(0, 0, 0)
+                    size: dimensione,
+                    font: fontDaUsare,
+                    color: PDFLib.rgb(0, 0, 0),
                 });
             }
         }
 
-        // D. Salviamo e facciamo scaricare il file allo zio
+        // E. Download automatico
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: "application/pdf" });
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        
-        const nomeClientePulito = cliente.replace(/\s+/g, '_');
-        link.download = `Preventivo_Integra_${nomeClientePulito}.pdf`;
-        link.click(); // Simula il click per scaricare!
+        link.download = `Preventivo_HUAWEI_${dati_inseriti.cliente.replace(/\s+/g, '_')}.pdf`;
+        link.click();
 
-    } catch (error) {
-        alert("Errore nella generazione del PDF: " + error.message);
+    } catch (err) {
+        console.error(err);
+        alert("Errore: " + err.message);
     }
 }
