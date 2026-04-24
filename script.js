@@ -38,7 +38,7 @@ async function generaPdfHuawei() {
     try{
         // A. Raccogliamo e formattiamo i dati dai campi HTML (esattamente come facevi in Python)
         const kwh = parseFloat(document.getElementById("h_kwh").value || 0);
-        const prezzoSenzaIVA = parseFloat(document.getElementById("h_prezzo_base").value || 0);
+        const prezzoSenzaIva = parseFloat(document.getElementById("h_prezzo_base").value || 0);
         const prezzoTotale = parseFloat(document.getElementById("h_totale").value || 0);
     
         const trasformaInFormatoItaliano = (numero) => {
