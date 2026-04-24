@@ -60,7 +60,7 @@ async function generaPdfHuawei() {
             "n_sistemi": document.getElementById("h_sistemi").value,
             "kwh_totali": trasformaInFormatoItaliano(kwh),
             "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
-            "piu' iva": totaleFormattatoItaliano(prezzoTotale),
+            "piu' iva": trasformaInFormatoItaliano(prezzoTotale),
             "chiavi in mano": trasformaInFormatoItaliano(prezzoTotale)
         };
 
