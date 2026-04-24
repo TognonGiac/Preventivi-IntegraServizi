@@ -58,7 +58,7 @@ async function generaPdfHuawei() {
             "email_cliente": document.getElementById("h_email_cliente").value,
             "indirizzo_installazione": document.getElementById("h_indirizzo_inst").value,
             "n_sistemi": document.getElementById("h_sistemi").value,
-            "kwh_totali": trasformaInFormatoItaliano(Kwh),
+            "kwh_totali": trasformaInFormatoItaliano(kwh),
             "prezzo": trasformaInFormatoItaliano(prezzoSenzaIva),
             "piu' iva": totaleFormattato(prezzoTotale),
             "chiavi in mano": trasformaInFormatoItaliano(prezzoTotale)
