@@ -96,3 +96,28 @@ hr {
     color: #00d4ff; /* Azzurro vivace */
     font-weight: bold;
 }
+
+/* Colori per la Modalità Chiara */
+.light-mode {
+    --bg-color: #ffffff;
+    --secondary-bg: #f0f2f6;
+    --text-color: #31333f;
+    --input-bg: #ffffff;
+    --border-color: #d6d6d6;
+    --accent-color: #ff4b4b; /* Rosso Streamlit per la versione chiara */
+}
+
+/* Stile per il tasto Cambia Tema (per non farlo sparire nel buio) */
+.btn-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    z-index: 1000;
+}
