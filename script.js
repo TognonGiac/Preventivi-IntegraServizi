@@ -7,14 +7,20 @@ function mostraModulo() {
 // 1. LE TUE COORDINATE (Tradotte da coordinate.py)
 // Sostituisci questi numeri di esempio con quelli veri del tuo file coordinate.py
 const coordinate_HUAWEI = {
-    "data": [0, 100, 700], // [pagina (0 = prima pagina), x, y]
-    "referente": [0, 100, 680],
-    "cliente": [0, 100, 660],
-    "indirizzo": [0, 100, 640],
-    "kwh_totali": [0, 200, 500],
-    "n_sistemi": [0, 200, 480],
-    "prezzo": [1, 400, 200],      // Esempio: Pagina 2 (indice 1)
-    "chiavi in mano": [1, 400, 150]
+    "data": [0, 165, 655], // [pagina (0 = prima pagina), x, y]
+    "referente": [0, 165, 630],
+    "telefono":[0, 165, 600],
+    "cliente": [0, 330, 630],
+    "indirizzo": [0, 330, 577],
+    "telefono_cliente": [0, 380, 553],
+    "email_cliente": [0, 357, 527],
+    "indirizzo_installazione": [0, 70, 531],
+    
+    "kwh_totali": [0, 190, 435],
+    "n_sistemi": [0, 80, 360],
+    "prezzo": [0, 240, 125],      // Esempio: Pagina 2 (indice 1)
+    "piu' iva": [0, 430, 125],
+    "chiavi in mano": [1, 220, 705],
 };
 
 // 2. FUNZIONE PER GENERARE IL PDF
