@@ -47,11 +47,14 @@ const coordinate_HUAWEI_MONOFASE = {
 //2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
 function mostraModulo() {
     const selezione = document.getElementById("tipo_preventivo").value;
-    const modulo = document.getElementById("modulo_huawei");
+    
+    document.getElementById("modulo_huawei").style.display = "none";
+    document.getElementById("modulo_huawei_monofase").style.display = "none";
+
     if (selezione === "HUAWEI") {
-        modulo.style.display = "block";
-    } else {
-        modulo.style.display = "none";
+        document.getElementById("modulo_huawei").style.display = "block";
+    } else if (selezione === "HUAWEI_MONOFASE") {
+        document.getElementById("modulo_huawei_monofase").style.display = "block";
     }
 }
 // 3. FUNZIONE PER GENERARE IL PDF
