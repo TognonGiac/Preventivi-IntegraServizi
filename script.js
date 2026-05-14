@@ -75,20 +75,51 @@ const coordinate_SUNGROW_MONOFASE = {
     "note": [6, 76, 735],
 };
 
+const coordinate_TESLA = {
+    // Pagina 1 (indice 0)
+    "data": [0, 165, 655],
+    "referente": [0, 165, 630],
+    "telefono": [0, 165, 605],
+    "cliente": [0, 330, 630],
+    "indirizzo": [0, 330, 577],
+    "telefono_cliente": [0, 380, 553],
+    "email_cliente": [0, 357, 527],
+    "indirizzo_installazione": [0, 70, 539],
+    "potenza_nominale": [0, 310, 408],
+    "kwh_totali": [0, 270, 384],
+    
+    // Pagina 2 (indice 1)
+    "moduli": [1, 83, 760],
+    "powerwall": [1, 83, 514],
+    "prezzo": [1, 230, 90],
+    "piu' iva": [1, 430, 90],
+
+    // Pagina 3 (indice 2)
+    "chiavi in mano": [2, 220, 682],
+
+    // Pagina 4 (indice 3)
+    "note": [3, 76, 240],
+};
+
 //2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
 function mostraModulo() {
     const selezione = document.getElementById("tipo_preventivo").value;
     
+    // Nascondiamo tutto all'inizio
     document.getElementById("modulo_huawei").style.display = "none";
     document.getElementById("modulo_huawei_monofase").style.display = "none";
     document.getElementById("modulo_sungrow_monofase").style.display = "none";
+    document.getElementById("modulo_tesla").style.display = "none";
 
+    // Mostriamo quello selezionato
     if (selezione === "HUAWEI") {
         document.getElementById("modulo_huawei").style.display = "block";
     } else if (selezione === "HUAWEI_MONOFASE") {
         document.getElementById("modulo_huawei_monofase").style.display = "block";
     } else if (selezione === "SUNGROW_MONOFASE") {
         document.getElementById("modulo_sungrow_monofase").style.display = "block";
+    } else if (selezione === "TESLA") {
+        document.getElementById("modulo_tesla").style.display = "block";
     }
 }
 // 3. FUNZIONE PER GENERARE IL PDF
@@ -351,6 +382,89 @@ async function generaPdfSungrowMonofase() {
         
         const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
         link.download = `Preventivo_SUNGROW_MONOFASE${suffissoCliente}.pdf`;
+        link.click();
+
+    } catch (err) {
+        console.error(err);
+        alert("Errore: " + err.message);
+    }
+}
+
+async function generaPdfTesla() {
+    try {
+        const trasformaInFormatoItaliano = (valoreInput) => {
+            if (valoreInput === "" || valoreInput === null) return "";
+            return parseFloat(valoreInput).toLocaleString('it-IT', { 
+                minimumFractionDigits: 2, maximumFractionDigits: 2 
+            });
+        };
+
+        const dati_inseriti = {
+            "data": document.getElementById("t_data").value,
+            "referente": document.getElementById("t_referente").value,
+            "telefono": document.getElementById("t_telefono_ref").value,
+            "cliente": document.getElementById("t_cliente").value,
+            "indirizzo": document.getElementById("t_indirizzo").value,
+            "telefono_cliente": document.getElementById("t_telefono_cliente").value,
+            "email_cliente": document.getElementById("t_email_cliente").value,
+            "indirizzo_installazione": document.getElementById("t_indirizzo_inst").value,
+            
+            "potenza_nominale": document.getElementById("t_potenza").value,
+            "kwh_totali": trasformaInFormatoItaliano(document.getElementById("t_kwh").value),
+            "moduli": document.getElementById("t_moduli").value,
+            "powerwall": document.getElementById("t_powerwall").value,
+            
+            "prezzo": trasformaInFormatoItaliano(document.getElementById("t_prezzo_base").value),
+            "piu' iva": trasformaInFormatoItaliano(document.getElementById("t_totale_iva").value),
+            "chiavi in mano": trasformaInFormatoItaliano(document.getElementById("t_totale_iva").value),
+            
+            "note": document.getElementById("t_note").value
+        };
+
+        const url_pdf = 'assets/MASTER TESLA.pdf'; 
+        const bytesOriginali = await fetch(url_pdf).then(res => {
+            if (!res.ok) throw new Error("File PDF Tesla non trovato in assets!");
+            return res.arrayBuffer();
+        });
+
+        const pdfDoc = await PDFLib.PDFDocument.load(bytesOriginali);
+        const pages = pdfDoc.getPages();
+        const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const fontNormale = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+
+        for (const [chiave, valore] of Object.entries(dati_inseriti)) {
+            if (coordinate_TESLA[chiave] && valore !== "") {
+                const [numPagina, x, y] = coordinate_TESLA[chiave];
+                const pagina = pages[numPagina];
+
+                const fontDaUsare = (chiave === "chiavi in mano") ? fontBold : fontNormale;
+                const dimensione = (chiave === "chiavi in mano") ? 14 : 11;
+
+                const opzioniTesto = {
+                    x: x,
+                    y: y,
+                    size: dimensione,
+                    font: fontDaUsare,
+                    color: PDFLib.rgb(0, 0, 0),
+                };
+
+                // Anche qui, il magico trucco per mandare a capo le note
+                if (chiave === "note") {
+                    opzioniTesto.maxWidth = 450;
+                    opzioniTesto.lineHeight = 14;
+                }
+
+                pagina.drawText(String(valore), opzioniTesto);
+            }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        
+        const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
+        link.download = `Preventivo_TESLA${suffissoCliente}.pdf`;
         link.click();
 
     } catch (err) {
