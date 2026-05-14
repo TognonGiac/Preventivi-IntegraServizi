@@ -197,13 +197,23 @@ async function generaPdfHuaweiMonofase() {
                 const fontDaUsare = (chiave === "chiavi in mano") ? fontBold : fontNormale;
                 const dimensione = (chiave === "chiavi in mano") ? 14 : 11;
 
-                pagina.drawText(String(valore), {
+                // Prepariamo le opzioni base per scrivere il testo
+                const opzioniTesto = {
                     x: x,
                     y: y,
                     size: dimensione,
                     font: fontDaUsare,
                     color: PDFLib.rgb(0, 0, 0),
-                });
+                };
+
+                // SE stiamo scrivendo il campo "note", attiviamo l'a capo automatico!
+                if (chiave === "note") {
+                    opzioniTesto.maxWidth = 480;   // Larghezza massima prima di andare a capo (puoi abbassarlo o alzarlo)
+                    opzioniTesto.lineHeight = 14;  // Distanza tra una riga e l'altra
+                }
+
+                // Disegniamo il testo sul PDF
+                pagina.drawText(String(valore), opzioniTesto);
             }
         }
 
