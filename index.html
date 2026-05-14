@@ -123,29 +123,6 @@
             </button>
         </div>
         ```
-
----
-
-### 2. Modifica al file `script.js`
-
-Ora apri `script.js`.
-
-**A. Aggiorna la funzione `mostraModulo()`** in modo che mostri il modulo giusto in base alla selezione. Sostituisci la tua funzione `mostraModulo` con questa:
-```javascript
-function mostraModulo() {
-    const selezione = document.getElementById("tipo_preventivo").value;
-    
-    // Nascondiamo entrambi all'inizio
-    document.getElementById("modulo_huawei").style.display = "none";
-    document.getElementById("modulo_huawei_monofase").style.display = "none";
-
-    // Mostriamo solo quello selezionato
-    if (selezione === "HUAWEI") {
-        document.getElementById("modulo_huawei").style.display = "block";
-    } else if (selezione === "HUAWEI_MONOFASE") {
-        document.getElementById("modulo_huawei_monofase").style.display = "block";
-    }
-}
     <script src="script.js"></script>
 </body>
 </html>
