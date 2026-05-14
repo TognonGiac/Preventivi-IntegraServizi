@@ -23,6 +23,27 @@ const coordinate_HUAWEI = {
     "chiavi in mano": [1, 220, 705],
 };
 
+const coordinate_HUAWEI_MONOFASE = {
+    "data": [0, 165, 655], 
+    "referente": [0, 165, 630],
+    "telefono": [0, 165, 600],
+    "cliente": [0, 330, 630],
+    "indirizzo": [0, 330, 577],
+    "telefono_cliente": [0, 380, 553],
+    "email_cliente": [0, 357, 527],
+    "indirizzo_installazione": [0, 70, 531],
+    
+    // NUOVI CAMPI FOTOVOLTAICO
+    "potenza": [0, 200, 480],      // <--- DA SISTEMARE
+    "kwh_totali": [0, 190, 435], 
+    "n_moduli": [0, 200, 410],     // <--- DA SISTEMARE
+    "n_sistemi": [0, 80, 360], 
+    
+    "prezzo": [0, 240, 125],      
+    "piu' iva": [0, 430, 125],
+    "chiavi in mano": [1, 220, 705],
+    "note": [1, 50, 600]           // <--- DA SISTEMARE
+};
 //2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
 function mostraModulo() {
     const selezione = document.getElementById("tipo_preventivo").value;
