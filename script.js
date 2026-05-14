@@ -44,17 +44,57 @@ const coordinate_HUAWEI_MONOFASE = {
     "chiavi in mano": [2, 220, 392],
     "note": [4, 57, 740]
 };
+
+const coordinate_SUNGROW_MONOFASE = {
+    // Pagina 1 (indice 0)
+    "data": [0, 165, 655],
+    "referente": [0, 165, 630],
+    "telefono": [0, 165, 605],
+    "cliente": [0, 330, 630],
+    "indirizzo": [0, 330, 578],
+    "telefono_cliente": [0, 380, 555],
+    "email_cliente": [0, 362, 527],
+    "indirizzo_installazione": [0, 70, 511],
+    "potenza_nominale": [0, 280, 445],
+    "kwh_totali": [0, 243, 416],  
+    
+    // Pagina 2 (indice 1)
+    "moduli": [1, 85, 745],
+    
+    // Pagina 3 (indice 2)
+    "sistemi di accumulo": [2, 85, 598],
+    "prezzo": [2, 240, 135],
+    "piu' iva": [2, 438, 135],
+
+    // Pagina 4 (indice 3)
+    "Ottimizzazione Tigo": [3, 84, 630],
+    "Prezzo Tigo": [3, 310, 365],
+    "Prezzo Tigo piu' iva": [3, 491, 365],
+    "Ottimizzatore Sungrow": [3, 83, 337],
+    "Prezzo Sungrow": [3, 312, 70],
+    "Prezzo Sungrow piu' iva": [3, 500, 70],
+    
+    // Pagina 5 (indice 4)
+    "chiavi in mano": [4, 220, 657],
+
+    // Pagina 7 (indice 6)
+    "note": [6, 76, 735],
+};
+
 //2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
 function mostraModulo() {
     const selezione = document.getElementById("tipo_preventivo").value;
     
     document.getElementById("modulo_huawei").style.display = "none";
     document.getElementById("modulo_huawei_monofase").style.display = "none";
+    document.getElementById("modulo_sungrow_monofase").style.display = "none";
 
     if (selezione === "HUAWEI") {
         document.getElementById("modulo_huawei").style.display = "block";
     } else if (selezione === "HUAWEI_MONOFASE") {
         document.getElementById("modulo_huawei_monofase").style.display = "block";
+    } else if (selezione === "SUNGROW_MONOFASE") {
+        document.getElementById("modulo_sungrow_monofase").style.display = "block";
     }
 }
 // 3. FUNZIONE PER GENERARE IL PDF
@@ -225,6 +265,98 @@ async function generaPdfHuaweiMonofase() {
         
         const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
         link.download = `Preventivo_HUAWEI_MONOFASE${suffissoCliente}.pdf`;
+        link.click();
+
+    } catch (err) {
+        console.error(err);
+        alert("Errore: " + err.message);
+    }
+}
+
+async function generaPdfSungrowMonofase() {
+    try {
+        const trasformaInFormatoItaliano = (valoreInput) => {
+            if (valoreInput === "" || valoreInput === null) return "";
+            return parseFloat(valoreInput).toLocaleString('it-IT', { 
+                minimumFractionDigits: 2, maximumFractionDigits: 2 
+            });
+        };
+
+        const dati_inseriti = {
+            "data": document.getElementById("sm_data").value,
+            "referente": document.getElementById("sm_referente").value,
+            "telefono": document.getElementById("sm_telefono_ref").value,
+            "cliente": document.getElementById("sm_cliente").value,
+            "indirizzo": document.getElementById("sm_indirizzo").value,
+            "telefono_cliente": document.getElementById("sm_telefono_cliente").value,
+            "email_cliente": document.getElementById("sm_email_cliente").value,
+            "indirizzo_installazione": document.getElementById("sm_indirizzo_inst").value,
+            
+            "potenza_nominale": document.getElementById("sm_potenza").value,
+            "kwh_totali": trasformaInFormatoItaliano(document.getElementById("sm_kwh").value),
+            "moduli": document.getElementById("sm_moduli").value,
+            "sistemi di accumulo": document.getElementById("sm_sistemi").value,
+            
+            "prezzo": trasformaInFormatoItaliano(document.getElementById("sm_prezzo_base").value),
+            "piu' iva": trasformaInFormatoItaliano(document.getElementById("sm_totale_iva").value),
+            
+            // TIGO
+            "Ottimizzazione Tigo": document.getElementById("sm_n_tigo").value,
+            "Prezzo Tigo": trasformaInFormatoItaliano(document.getElementById("sm_prezzo_tigo_base").value),
+            "Prezzo Tigo piu' iva": trasformaInFormatoItaliano(document.getElementById("sm_prezzo_tigo_iva").value),
+            
+            // SUNGROW
+            "Ottimizzatore Sungrow": document.getElementById("sm_n_sungrow").value,
+            "Prezzo Sungrow": trasformaInFormatoItaliano(document.getElementById("sm_prezzo_sungrow_base").value),
+            "Prezzo Sungrow piu' iva": trasformaInFormatoItaliano(document.getElementById("sm_prezzo_sungrow_iva").value),
+            
+            "chiavi in mano": trasformaInFormatoItaliano(document.getElementById("sm_chiavi_in_mano").value),
+            "note": document.getElementById("sm_note").value
+        };
+
+        const url_pdf = 'assets/MASTER SUNGROW MONOFASE.pdf'; 
+        const bytesOriginali = await fetch(url_pdf).then(res => {
+            if (!res.ok) throw new Error("File PDF Sungrow Monofase non trovato in assets!");
+            return res.arrayBuffer();
+        });
+
+        const pdfDoc = await PDFLib.PDFDocument.load(bytesOriginali);
+        const pages = pdfDoc.getPages();
+        const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const fontNormale = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+
+        for (const [chiave, valore] of Object.entries(dati_inseriti)) {
+            if (coordinate_SUNGROW_MONOFASE[chiave] && valore !== "") {
+                const [numPagina, x, y] = coordinate_SUNGROW_MONOFASE[chiave];
+                const pagina = pages[numPagina];
+
+                const fontDaUsare = (chiave === "chiavi in mano") ? fontBold : fontNormale;
+                const dimensione = (chiave === "chiavi in mano") ? 14 : 11;
+
+                const opzioniTesto = {
+                    x: x,
+                    y: y,
+                    size: dimensione,
+                    font: fontDaUsare,
+                    color: PDFLib.rgb(0, 0, 0),
+                };
+
+                if (chiave === "note") {
+                    opzioniTesto.maxWidth = 450;
+                    opzioniTesto.lineHeight = 14;
+                }
+
+                pagina.drawText(String(valore), opzioniTesto);
+            }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        
+        const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
+        link.download = `Preventivo_SUNGROW_MONOFASE${suffissoCliente}.pdf`;
         link.click();
 
     } catch (err) {
