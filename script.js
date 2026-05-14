@@ -109,9 +109,9 @@ async function generaPdfHuawei() {
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         
-        // MODIFICA NOME FILE: Ora è specifico per le Batterie di Accumulo e gestisce il caso in cui il nome cliente sia vuoto
-        const nomeFileCliente = dati_inseriti.cliente ? dati_inseriti.cliente.replace(/\s+/g, '_') : "Cliente_Non_Inserito";
-        link.download = `Preventivo_Batterie_Accumulo_HUAWEI_${nomeFileCliente}.pdf`;
+        // MODIFICA NOME FILE: Se c'è il nome lo aggiunge, altrimenti lascia solo il nome base
+        const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
+        link.download = `Preventivo_Batterie_Accumulo_HUAWEI${suffissoCliente}.pdf`;
         link.click();
 
     } catch (err) {
