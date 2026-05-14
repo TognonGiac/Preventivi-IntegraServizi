@@ -23,6 +23,7 @@
             <option value="HUAWEI">BATTERIE ACCUMULO HUAWEI</option>
             <option value="HUAWEI_MONOFASE">HUAWEI MONOFASE</option>
             <option value="SUNGROW_MONOFASE">SUNGROW MONOFASE</option>
+            <option value="TESLA">TESLA</option>
         </select>
 
         <div id="modulo_huawei" class="modulo-nascosto" style="display: none;">
@@ -197,7 +198,60 @@
             <button onclick="generaPdfSungrowMonofase()" class="btn-genera">
                 <span class="icona-freccia">⬇</span> Genera Preventivo SUNGROW MONOFASE
             </button>
-        </div> </div> <script src="script.js"></script>
+            
+        </div> <div id="modulo_tesla" class="modulo-nascosto" style="display: none;">
+            <hr>
+            <label>Data dell'offerta:</label>
+            <input type="text" id="t_data" placeholder="es. 04/03/2026">
+            
+            <label>Referente commerciale:</label>
+            <input type="text" id="t_referente" value="Tognon Maurizio">
+        
+            <label>Telefono referente:</label>
+            <input type="text" id="t_telefono_ref" value="348 581 3791">
+            
+            <label>Nome e Cognome del cliente:</label>
+            <input type="text" id="t_cliente">
+        
+            <label>Indirizzo di residenza:</label>
+            <input type="text" id="t_indirizzo">
+        
+            <label>Telefono del cliente:</label>
+            <input type="text" id="t_telefono_cliente">
+        
+            <label>E-mail del cliente:</label>
+            <input type="text" id="t_email_cliente">
+        
+            <label>Indirizzo installazione (se diverso dalla residenza):</label>
+            <input type="text" id="t_indirizzo_inst">
+        
+            <hr>
+            <label>Potenza Nominale (kW):</label>
+            <input type="number" id="t_potenza" step="0.1">
+
+            <label>Capacità accumulo totale in kWh:</label>
+            <input type="number" id="t_kwh" step="0.5">
+
+            <label>Numero di moduli:</label>
+            <input type="number" id="t_moduli" step="1">
+        
+            <label>Numero di Powerwall:</label>
+            <input type="number" id="t_powerwall" step="1">
+        
+            <hr>
+            <label>Prezzo senza IVA €:</label>
+            <input type="number" id="t_prezzo_base" step="100">
+        
+            <label>Totale Chiavi in Mano (IVA Inclusa) €:</label>
+            <input type="number" id="t_totale_iva" step="100">
+
+            <label>Note aggiuntive:</label>
+            <textarea id="t_note" rows="4" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-color); padding: 12px; font-family: inherit; margin-bottom: 20px; box-sizing: border-box;"></textarea>
+        
+            <button onclick="generaPdfTesla()" class="btn-genera">
+                <span class="icona-freccia">⬇</span> Genera Preventivo TESLA
+            </button>
+        </div> <script src="script.js"></script>
 </body>
 </html>
 
