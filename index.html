@@ -22,6 +22,7 @@
             <option value="">Scegli...</option>
             <option value="HUAWEI">BATTERIE ACCUMULO HUAWEI</option>
             <option value="HUAWEI_MONOFASE">HUAWEI MONOFASE</option>
+            <option value="SUNGROW_MONOFASE">SUNGROW MONOFASE</option>
         </select>
 
         <div id="modulo_huawei" class="modulo-nascosto" style="display: none;">
@@ -67,6 +68,7 @@
             <button onclick="generaPdfHuawei()" class="btn-genera">
                 <span class="icona-freccia">⬇</span> Scarica il Preventivo PDF
             </button>
+        
         </div> <div id="modulo_huawei_monofase" class="modulo-nascosto" style="display: none;">
             <hr>
             <label>Data dell'offerta:</label>
@@ -118,6 +120,82 @@
         
             <button onclick="generaPdfHuaweiMonofase()" class="btn-genera">
                 <span class="icona-freccia">⬇</span> Genera Preventivo HUAWEI MONOFASE
+            </button>
+
+        <div id="modulo_sungrow_monofase" class="modulo-nascosto" style="display: none;">
+            <hr>
+            <label>Data dell'offerta:</label>
+            <input type="text" id="sm_data" placeholder="es. 04/03/2026">
+            
+            <label>Referente commerciale:</label>
+            <input type="text" id="sm_referente" value="Tognon Maurizio">
+        
+            <label>Telefono referente:</label>
+            <input type="text" id="sm_telefono_ref" value="348 581 3791">
+            
+            <label>Nome e Cognome del cliente:</label>
+            <input type="text" id="sm_cliente">
+        
+            <label>Indirizzo di residenza:</label>
+            <input type="text" id="sm_indirizzo">
+        
+            <label>Telefono del cliente:</label>
+            <input type="text" id="sm_telefono_cliente">
+        
+            <label>E-mail del cliente:</label>
+            <input type="text" id="sm_email_cliente">
+        
+            <label>Indirizzo installazione (se diverso dalla residenza):</label>
+            <input type="text" id="sm_indirizzo_inst">
+        
+            <hr>
+            <label>Potenza Nominale (kW):</label>
+            <input type="number" id="sm_potenza" step="0.1">
+
+            <label>Capacità accumulo totale in kWh:</label>
+            <input type="number" id="sm_kwh" step="0.5">
+
+            <label>Numero di moduli:</label>
+            <input type="number" id="sm_moduli" step="1">
+        
+            <label>Numero di sistemi di accumulo:</label>
+            <input type="number" id="sm_sistemi" step="1">
+        
+            <hr>
+            <label>Prezzo Base senza IVA €:</label>
+            <input type="number" id="sm_prezzo_base" step="100">
+        
+            <label>Prezzo finale con IVA €:</label>
+            <input type="number" id="sm_totale_iva" step="100">
+
+            <hr>
+            <h3>Eventuali Integrazioni</h3>
+            
+            <h4 style="margin-bottom: 5px;">TIGO</h4>
+            <label>Numero Ottimizzatori Tigo:</label>
+            <input type="number" id="sm_n_tigo" step="1">
+            <label>Prezzo Tigo (Senza IVA) €:</label>
+            <input type="number" id="sm_prezzo_tigo_base" step="10">
+            <label>Prezzo Tigo (IVA Inclusa) €:</label>
+            <input type="number" id="sm_prezzo_tigo_iva" step="10">
+
+            <h4 style="margin-bottom: 5px; margin-top: 20px;">SUNGROW</h4>
+            <label>Numero Ottimizzatori Sungrow:</label>
+            <input type="number" id="sm_n_sungrow" step="1">
+            <label>Prezzo Sungrow (Senza IVA) €:</label>
+            <input type="number" id="sm_prezzo_sungrow_base" step="10">
+            <label>Prezzo Sungrow (IVA Inclusa) €:</label>
+            <input type="number" id="sm_prezzo_sungrow_iva" step="10">
+            
+            <hr>
+            <label>Totale Chiavi in Mano (con iva e ottimizzatori) €:</label>
+            <input type="number" id="sm_chiavi_in_mano" step="100">
+
+            <label>Note aggiuntive:</label>
+            <textarea id="sm_note" rows="4" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-color); padding: 12px; font-family: inherit; margin-bottom: 20px; box-sizing: border-box;"></textarea>
+        
+            <button onclick="generaPdfSungrowMonofase()" class="btn-genera">
+                <span class="icona-freccia">⬇</span> Genera Preventivo SUNGROW MONOFASE
             </button>
         </div> </div> <script src="script.js"></script>
 </body>
