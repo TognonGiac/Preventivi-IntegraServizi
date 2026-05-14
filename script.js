@@ -141,6 +141,85 @@ async function generaPdfHuawei() {
     }
 }
 
+async function generaPdfHuaweiMonofase() {
+    try {
+        // Funzione per formattare la valuta vuota (uguale a prima)
+        const trasformaInFormatoItaliano = (valoreInput) => {
+            if (valoreInput === "" || valoreInput === null) return "";
+            return parseFloat(valoreInput).toLocaleString('it-IT', { 
+                minimumFractionDigits: 2, maximumFractionDigits: 2 
+            });
+        };
+
+        const dati_inseriti = {
+            "data": document.getElementById("hm_data").value,
+            "referente": document.getElementById("hm_referente").value,
+            "telefono": document.getElementById("hm_telefono_ref").value,
+            "cliente": document.getElementById("hm_cliente").value,
+            "indirizzo": document.getElementById("hm_indirizzo").value,
+            "telefono_cliente": document.getElementById("hm_telefono_cliente").value,
+            "email_cliente": document.getElementById("hm_email_cliente").value,
+            "indirizzo_installazione": document.getElementById("hm_indirizzo_inst").value,
+            
+            // Nuovi campi
+            "potenza": document.getElementById("hm_potenza").value,
+            "n_moduli": document.getElementById("hm_moduli").value,
+            "note": document.getElementById("hm_note").value,
+
+            "n_sistemi": document.getElementById("hm_sistemi").value, 
+            "kwh_totali": trasformaInFormatoItaliano(document.getElementById("hm_kwh").value),
+            "prezzo": trasformaInFormatoItaliano(document.getElementById("hm_prezzo_base").value),
+            "piu' iva": trasformaInFormatoItaliano(document.getElementById("hm_totale").value),
+            "chiavi in mano": trasformaInFormatoItaliano(document.getElementById("hm_totale").value)
+        };
+
+        // ASSICURATI CHE IL NOME DEL FILE SIA ESATTO A QUELLO NELLA CARTELLA ASSETS
+        const url_pdf = 'assets/HUAWEI MONOFASE.pdf'; 
+        const bytesOriginali = await fetch(url_pdf).then(res => {
+            if (!res.ok) throw new Error("File PDF Monofase non trovato in assets!");
+            return res.arrayBuffer();
+        });
+
+        const pdfDoc = await PDFLib.PDFDocument.load(bytesOriginali);
+        const pages = pdfDoc.getPages();
+        const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const fontNormale = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+
+        // Scrittura
+        for (const [chiave, valore] of Object.entries(dati_inseriti)) {
+            if (coordinate_HUAWEI_MONOFASE[chiave] && valore !== "") {
+                const [numPagina, x, y] = coordinate_HUAWEI_MONOFASE[chiave];
+                const pagina = pages[numPagina];
+
+                const fontDaUsare = (chiave === "chiavi in mano") ? fontBold : fontNormale;
+                const dimensione = (chiave === "chiavi in mano") ? 14 : 11;
+
+                pagina.drawText(String(valore), {
+                    x: x,
+                    y: y,
+                    size: dimensione,
+                    font: fontDaUsare,
+                    color: PDFLib.rgb(0, 0, 0),
+                });
+            }
+        }
+
+        // Download
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        
+        const suffissoCliente = dati_inseriti.cliente ? `_${dati_inseriti.cliente.replace(/\s+/g, '_')}` : "";
+        link.download = `Preventivo_HUAWEI_MONOFASE${suffissoCliente}.pdf`;
+        link.click();
+
+    } catch (err) {
+        console.error(err);
+        alert("Errore: " + err.message);
+    }
+}
+
 function toggleTema() {
     // Il comando toggle aggiunge la classe se non c'è, e la toglie se c'è.
     document.body.classList.toggle("light-mode");
