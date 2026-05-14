@@ -20,6 +20,7 @@
         <select id="tipo_preventivo" onchange="mostraModulo()">
             <option value="">Scegli...</option>
             <option value="HUAWEI">BATTERIE ACCUMULO HUAWEI</option>
+            <option value="HUAWEI_MONOFASE">HUAWEI MONOFASE</option> </select>
         </select>
 
         <div id="modulo_huawei" class="modulo-nascosto">
@@ -68,6 +69,83 @@
         </div>
     </div>
 
+    <div id="modulo_huawei_monofase" class="modulo-nascosto" style="display: none;">
+            <hr>
+            <label>Data dell'offerta:</label>
+            <input type="text" id="hm_data" placeholder="es. 04/03/2026">
+            
+            <label>Referente commerciale:</label>
+            <input type="text" id="hm_referente" value="Tognon Maurizio">
+        
+            <label>Telefono referente:</label>
+            <input type="text" id="hm_telefono_ref" value="348 581 3791">
+            
+            <label>Nome e Cognome del cliente:</label>
+            <input type="text" id="hm_cliente">
+        
+            <label>Indirizzo di residenza:</label>
+            <input type="text" id="hm_indirizzo">
+        
+            <label>Telefono del cliente:</label>
+            <input type="text" id="hm_telefono_cliente">
+        
+            <label>E-mail del cliente:</label>
+            <input type="text" id="hm_email_cliente">
+        
+            <label>Indirizzo installazione (se diverso dalla residenza):</label>
+            <input type="text" id="hm_indirizzo_inst">
+        
+            <hr>
+            <label>Potenza Nominale (kW):</label>
+            <input type="number" id="hm_potenza" step="0.1">
+
+            <label>Capacità accumulo totale in kWh:</label>
+            <input type="number" id="hm_kwh" step="0.5">
+
+            <label>Numero di moduli:</label>
+            <input type="number" id="hm_moduli" step="1">
+        
+            <label>Numero di sistemi di accumulo:</label>
+            <input type="number" id="hm_sistemi" step="1">
+        
+            <hr>
+            <label>Prezzo senza IVA €:</label>
+            <input type="number" id="hm_prezzo_base" step="100">
+        
+            <label>Totale Chiavi in Mano (IVA Inclusa) €:</label>
+            <input type="number" id="hm_totale" step="100">
+
+            <label>Note aggiuntive:</label>
+            <textarea id="hm_note" rows="4" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-color); padding: 12px; font-family: inherit; margin-bottom: 20px; box-sizing: border-box;"></textarea>
+        
+            <button onclick="generaPdfHuaweiMonofase()" class="btn-genera">
+                <span class="icona-freccia">⬇</span> Genera Preventivo HUAWEI MONOFASE
+            </button>
+        </div>
+        ```
+
+---
+
+### 2. Modifica al file `script.js`
+
+Ora apri `script.js`.
+
+**A. Aggiorna la funzione `mostraModulo()`** in modo che mostri il modulo giusto in base alla selezione. Sostituisci la tua funzione `mostraModulo` con questa:
+```javascript
+function mostraModulo() {
+    const selezione = document.getElementById("tipo_preventivo").value;
+    
+    // Nascondiamo entrambi all'inizio
+    document.getElementById("modulo_huawei").style.display = "none";
+    document.getElementById("modulo_huawei_monofase").style.display = "none";
+
+    // Mostriamo solo quello selezionato
+    if (selezione === "HUAWEI") {
+        document.getElementById("modulo_huawei").style.display = "block";
+    } else if (selezione === "HUAWEI_MONOFASE") {
+        document.getElementById("modulo_huawei_monofase").style.display = "block";
+    }
+}
     <script src="script.js"></script>
 </body>
 </html>
