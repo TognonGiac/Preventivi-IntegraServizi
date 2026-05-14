@@ -14,13 +14,14 @@
     <button onclick="toggleTema()" class="btn-tema">🌓 Cambia Tema</button>
 
     <div class="container">
+        
         <h1>⚡ Generatore Preventivi</h1>
         <h2>1. Seleziona il modello</h2>
         
         <select id="tipo_preventivo" onchange="mostraModulo()">
             <option value="">Scegli...</option>
             <option value="HUAWEI">BATTERIE ACCUMULO HUAWEI</option>
-            <option value="HUAWEI_MONOFASE">HUAWEI MONOFASE</option> </select>
+            <option value="HUAWEI_MONOFASE">HUAWEI MONOFASE</option>
         </select>
 
         <div id="modulo_huawei" class="modulo-nascosto">
@@ -66,10 +67,7 @@
             <button onclick="generaPdfHuawei()" class="btn-genera">
                 <span class="icona-freccia">⬇</span> Scarica il Preventivo PDF
             </button>
-        </div>
-    </div>
-
-    <div id="modulo_huawei_monofase" class="modulo-nascosto" style="display: none;">
+        </div> <div id="modulo_huawei_monofase" class="modulo-nascosto" style="display: none;">
             <hr>
             <label>Data dell'offerta:</label>
             <input type="text" id="hm_data" placeholder="es. 04/03/2026">
@@ -121,7 +119,6 @@
             <button onclick="generaPdfHuaweiMonofase()" class="btn-genera">
                 <span class="icona-freccia">⬇</span> Genera Preventivo HUAWEI MONOFASE
             </button>
-        </div>
-    <script src="script.js"></script>
+        </div> </div> <script src="script.js"></script>
 </body>
 </html>
