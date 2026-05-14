@@ -26,23 +26,23 @@ const coordinate_HUAWEI = {
 const coordinate_HUAWEI_MONOFASE = {
     "data": [0, 165, 655], 
     "referente": [0, 165, 630],
-    "telefono": [0, 165, 600],
+    "telefono": [0, 165, 605],
     "cliente": [0, 330, 630],
     "indirizzo": [0, 330, 577],
-    "telefono_cliente": [0, 380, 553],
-    "email_cliente": [0, 357, 527],
-    "indirizzo_installazione": [0, 70, 531],
+    "telefono_cliente": [0, 380, 529],
+    "email_cliente": [0, 360, 502],
+    "indirizzo_installazione": [0, 70, 506],
     
     // NUOVI CAMPI FOTOVOLTAICO
-    "potenza": [0, 200, 480],      // <--- DA SISTEMARE
-    "kwh_totali": [0, 190, 435], 
-    "n_moduli": [0, 200, 410],     // <--- DA SISTEMARE
-    "n_sistemi": [0, 80, 360], 
+    "potenza": [0, 270, 445],
+    "kwh_totali": [0, 235, 417], 
+    "n_moduli": [1, 83, 745],
+    "n_sistemi": [2, 80, 775], 
     
-    "prezzo": [0, 240, 125],      
-    "piu' iva": [0, 430, 125],
-    "chiavi in mano": [1, 220, 705],
-    "note": [1, 50, 600]           // <--- DA SISTEMARE
+    "prezzo": [2, 240, 547],      
+    "piu' iva": [2, 438, 547],
+    "chiavi in mano": [2, 220, 392],
+    "note": [4, 57, 740]
 };
 //2. Funzione per mostrare il modulo giusto (quella che abbiamo visto prima)
 function mostraModulo() {
