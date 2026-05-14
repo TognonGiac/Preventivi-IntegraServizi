@@ -177,7 +177,7 @@ async function generaPdfHuaweiMonofase() {
         };
 
         // ASSICURATI CHE IL NOME DEL FILE SIA ESATTO A QUELLO NELLA CARTELLA ASSETS
-        const url_pdf = 'assets/HUAWEI MONOFASE.pdf'; 
+        const url_pdf = 'assets/MASTER HUAWEI MONOFASE.pdf'; 
         const bytesOriginali = await fetch(url_pdf).then(res => {
             if (!res.ok) throw new Error("File PDF Monofase non trovato in assets!");
             return res.arrayBuffer();
