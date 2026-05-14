@@ -1,9 +1,3 @@
-// Mostra il modulo giusto quando si seleziona il menu a tendina
-function mostraModulo() {
-    const selezione = document.getElementById("tipo_preventivo").value;
-    document.getElementById("modulo_huawei").style.display = (selezione === "HUAWEI") ? "block" : "none";
-}
-
 // 1. LE TUE COORDINATE (Tradotte da coordinate.py)
 // Sostituisci questi numeri di esempio con quelli veri del tuo file coordinate.py
 const coordinate_HUAWEI = {
