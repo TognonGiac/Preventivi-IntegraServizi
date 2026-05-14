@@ -208,7 +208,7 @@ async function generaPdfHuaweiMonofase() {
 
                 // SE stiamo scrivendo il campo "note", attiviamo l'a capo automatico!
                 if (chiave === "note") {
-                    opzioniTesto.maxWidth = 480;   // Larghezza massima prima di andare a capo (puoi abbassarlo o alzarlo)
+                    opzioniTesto.maxWidth = 460;   // Larghezza massima prima di andare a capo (puoi abbassarlo o alzarlo)
                     opzioniTesto.lineHeight = 14;  // Distanza tra una riga e l'altra
                 }
 
